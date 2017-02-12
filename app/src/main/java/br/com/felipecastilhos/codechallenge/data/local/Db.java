@@ -21,7 +21,7 @@ public class Db {
                         COLUMN_ID + " INTEGER PRIMARY KEY, " +
                         COLUMN_RESTAURANT_ID + " INTEGER NOT NULL, " +
                         COLUMN_DATE + " TEXT NOT NULL, " +
-                        "FOREIGN KEY (" + COLUMN_RESTAURANT_ID + ") REFERENCES" +
+                        "FOREIGN KEY (" + COLUMN_RESTAURANT_ID + ") REFERENCES " +
                         RestaurantTable.TABLE_NAME + "(" + RestaurantTable.COLUMN_ID +
                         ")); ";
 
@@ -40,7 +40,7 @@ public class Db {
                         COLUMN_ID + " INTEGER PRIMARY KEY, " +
                         COLUMN_NAME + " INTEGER NOT NULL, " +
                         COLUMN_ABOUT + "TEXT, " +
-                        COLUMN_LOCATION + "TEXT NOT NULL, " +
+                        COLUMN_LOCATION + "TEXT NOT NULL " +
                         " ); ";
     }
 
@@ -53,7 +53,7 @@ public class Db {
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                        COLUMN_NAME + " INTEGER NOT NULL, " +
+                        COLUMN_NAME + " INTEGER NOT NULL " +
                         ");";
     }
 
@@ -75,9 +75,9 @@ public class Db {
                         COLUMN_DATE + " INTEGER NOT NULL, " +
                         COLUMN_RESTAURANT_ID + " INTEGER NOT NULL, " +
                         COLUMN_USER_ID + " INTEGER NOT NULL, " +
-                        "FOREIGN KEY (" + COLUMN_RESTAURANT_ID + ") REFERENCES" +
+                        "FOREIGN KEY (" + COLUMN_RESTAURANT_ID + ") REFERENCES " +
                         RestaurantTable.TABLE_NAME + "(" + RestaurantTable.COLUMN_ID + "), " +
-                        "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES" +
+                        "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
                         UserTable.TABLE_NAME + "(" + UserTable.COLUMN_ID + ")" +
                         "); ";
     }

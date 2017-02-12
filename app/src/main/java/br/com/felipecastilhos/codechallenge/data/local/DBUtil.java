@@ -11,7 +11,7 @@ public class DBUtil {
 
     private DBUtil(Context context) {
         super();
-        mDBHelper = new DBHelper(context);
+//        mDBHelper = new DBHelper(context);
         mDb = mDBHelper.getReadableDatabase();
     }
 

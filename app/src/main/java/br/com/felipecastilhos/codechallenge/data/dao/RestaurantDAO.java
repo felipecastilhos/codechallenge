@@ -7,32 +7,30 @@ import android.database.sqlite.SQLiteDatabase;
 
 import br.com.felipecastilhos.codechallenge.data.local.DBHelper;
 import br.com.felipecastilhos.codechallenge.data.local.Db;
+import br.com.felipecastilhos.codechallenge.data.model.Restaurant;
 import br.com.felipecastilhos.codechallenge.data.model.User;
 
-public class UserDAO {
+public class RestaurantDAO {
     private static DBHelper mDBHelper;
 
-    public UserDAO(Context context) {
+    public RestaurantDAO(Context context) {
         mDBHelper = DBHelper.getInstance(context);
     }
 
-    public void  createUser(String name) {
+    public void createRestaurant(String name, String about, String location) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Db.RestaurantTable.COLUMN_NAME, name);
-        contentValues.put(Db.RestaurantTable.COLUMN_ABOUT, name);
-        contentValues.put(Db.RestaurantTable.COLUMN_LOCATION, name);
+        contentValues.put(Db.RestaurantTable.COLUMN_ABOUT, about);
+        contentValues.put(Db.RestaurantTable.COLUMN_LOCATION, location);
         db.insert(Db.UserTable.TABLE_NAME, null, contentValues);
     }
 
-    public User getUser(int id) {
+    public Restaurant getRestaurant(int id) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
-        String[] colummns = {Db.UserTable.COLUMN_NAME};
+        String[] colummns = {Db.RestaurantTable.COLUMN_NAME};
         Cursor cursor = db.rawQuery("select * from user where id == " + id, null);
-        return Db.parseCursorToUser(cursor);
+        return Db.parseCurorToRestaurant(cursor);
     }
 
-    public int totalUsers() {
-        return mDBHelper.getNumberRows(Db.UserTable.TABLE_NAME);
-    }
 }
