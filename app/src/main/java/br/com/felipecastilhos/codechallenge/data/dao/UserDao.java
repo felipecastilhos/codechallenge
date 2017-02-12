@@ -27,8 +27,7 @@ public class UserDAO {
 
     public User getUser(int id) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
-        String[] colummns = {Db.UserTable.COLUMN_NAME};
-        Cursor cursor = db.rawQuery("select * from user where id == " + id, null);
+        Cursor cursor = db.rawQuery("select * from " + Db.UserTable.TABLE_NAME + " where id == " + id, null);
         return Db.parseCursorToUser(cursor);
     }
 
