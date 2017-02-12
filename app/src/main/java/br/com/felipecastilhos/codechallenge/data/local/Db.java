@@ -33,14 +33,14 @@ public class Db {
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_ABOUT = "about";
-        public static final String COLUMN_LOCATION = "location";
+        public static final String COLUMN_DISTANCE= "distance";
 
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY, " +
                         COLUMN_NAME + " INTEGER NOT NULL, " +
                         COLUMN_ABOUT + "TEXT, " +
-                        COLUMN_LOCATION + "TEXT NOT NULL " +
+                        COLUMN_DISTANCE + "TEXT NOT NULL " +
                         " ); ";
     }
 
@@ -92,11 +92,8 @@ public class Db {
         int id = cursor.getInt(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_ID));
         String name = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_NAME));
         String about = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_ABOUT));
-        String locationString = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_LOCATION));
-        String[] locationArray = locationString.split(";");
-        Location location = new Location(locationArray[0], locationArray[1]);
-
-        return new Restaurant(id, name, about, location);
+        double distance = cursor.getDouble(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_DISTANCE));
+        return new Restaurant(id, name, about, distance);
     }
 
     public static Favorite parseCursorToFavorite(Cursor cursor) {

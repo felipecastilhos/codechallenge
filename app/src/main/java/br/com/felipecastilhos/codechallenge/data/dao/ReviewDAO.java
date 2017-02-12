@@ -28,7 +28,16 @@ public class ReviewDAO {
 
     public Review getReview(int id) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + Db.ReviewTable.TABLE_NAME + " where id == " + id, null);
+        String query = "select * from " + Db.ReviewTable.TABLE_NAME + " where " +  Db.ReviewTable.COLUMN_ID + " == " + id;
+        Cursor cursor = db.rawQuery(query, null);
         return Db.parseCursorToReview(cursor);
     }
+
+    public Review getAllRestaurantReview(int restaurantId) {
+        SQLiteDatabase db = mDBHelper.getWritableDatabase();
+        String query = "select * from " + Db.ReviewTable.TABLE_NAME + " where " + Db.ReviewTable.COLUMN_RESTAURANT_ID + " == " + restaurantId;
+        Cursor cursor = db.rawQuery(query , null);
+        return Db.parseCursorToReview(cursor);
+    }
+
 }

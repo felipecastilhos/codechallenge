@@ -16,12 +16,12 @@ public class RestaurantDAO {
         mDBHelper = DBHelper.getInstance(context);
     }
 
-    public void createRestaurant(String name, String about, String location) {
+    public void createRestaurant(String name, String about, double distance) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Db.RestaurantTable.COLUMN_NAME, name);
         contentValues.put(Db.RestaurantTable.COLUMN_ABOUT, about);
-        contentValues.put(Db.RestaurantTable.COLUMN_LOCATION, location);
+        contentValues.put(Db.RestaurantTable.COLUMN_DISTANCE, distance);
         db.insert(Db.UserTable.TABLE_NAME, null, contentValues);
     }
 
@@ -30,5 +30,6 @@ public class RestaurantDAO {
         Cursor cursor = db.rawQuery("select * from " + Db.RestaurantTable.TABLE_NAME + " where id == " + id, null);
         return Db.parseCurorToRestaurant(cursor);
     }
+
 
 }

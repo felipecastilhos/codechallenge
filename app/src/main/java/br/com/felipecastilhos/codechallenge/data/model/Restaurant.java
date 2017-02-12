@@ -8,19 +8,20 @@ public class Restaurant implements Parcelable {
     public int id;
     public String name;
     public String about;
-    public Location location;
+    public double distance;
 
-    public Restaurant(int id, String name, String about, Location location) {
+    public Restaurant(int id, String name, String about, double distance) {
         this.id = id;
         this.name = name;
         this.about = about;
-        this.location = location;
+        this.distance = distance;
     }
 
     protected Restaurant(Parcel in) {
         id = in.readInt();
         name = in.readString();
         about = in.readString();
+        distance = in.readDouble();
     }
 
     @Override
@@ -28,6 +29,7 @@ public class Restaurant implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(about);
+        dest.writeDouble(distance);
     }
 
     @Override
