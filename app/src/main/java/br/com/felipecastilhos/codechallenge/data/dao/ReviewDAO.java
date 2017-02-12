@@ -12,32 +12,48 @@ import br.com.felipecastilhos.codechallenge.data.model.Review;
 
 public class ReviewDAO {
     private static DBHelper mDBHelper;
+    private static final String TABLE_NAME = Db.ReviewTable.TABLE_NAME;
 
     public ReviewDAO(Context context) {
         mDBHelper = DBHelper.getInstance(context);
     }
 
-    public void createReview(String name, String about, String location) {
+
+    public int id;
+    public float rate;
+    public int userId;
+    public int  restaurantId;
+    public String userReview;
+    public String date;
+
+    public void createReview(float rate, int userId, int restaurantId,
+                             String userReview, String date) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Db.RestaurantTable.COLUMN_NAME, name);
-        contentValues.put(Db.RestaurantTable.COLUMN_ABOUT, about);
-        contentValues.put(Db.RestaurantTable.COLUMN_LOCATION, location);
-        db.insert(Db.UserTable.TABLE_NAME, null, contentValues);
+        contentValues.put(Db.ReviewTable.COLUMN_RATE, rate);
+        contentValues.put(Db.ReviewTable.COLUMN_USER_ID, userId);
+        contentValues.put(Db.ReviewTable.COLUMN_RESTAURANT_ID, restaurantId);
+        contentValues.put(Db.ReviewTable.COLUMN_USER_REVIEW, userReview);
+        contentValues.put(Db.ReviewTable.COLUMN_DATE, date);
+        db.insert(TABLE_NAME, null, contentValues);
     }
 
     public Review getReview(int id) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
-        String query = "select * from " + Db.ReviewTable.TABLE_NAME + " where " +  Db.ReviewTable.COLUMN_ID + " == " + id;
+        String query = "select * from " + TABLE_NAME + " where " +  Db.ReviewTable.COLUMN_ID + " == " + id;
         Cursor cursor = db.rawQuery(query, null);
-        return Db.parseCursorToReview(cursor);
+        Review review =  Db.parseCursorToReview(cursor);
+        cursor.close();
+        return review;
     }
 
     public Review getAllRestaurantReview(int restaurantId) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
-        String query = "select * from " + Db.ReviewTable.TABLE_NAME + " where " + Db.ReviewTable.COLUMN_RESTAURANT_ID + " == " + restaurantId;
+        String query = "select * from " + TABLE_NAME + " where " + Db.ReviewTable.COLUMN_RESTAURANT_ID + " == " + restaurantId;
         Cursor cursor = db.rawQuery(query , null);
-        return Db.parseCursorToReview(cursor);
+        Review review =  Db.parseCursorToReview(cursor);
+        cursor.close();
+        return review;
     }
 
 }

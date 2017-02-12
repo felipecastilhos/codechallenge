@@ -12,6 +12,7 @@ import br.com.felipecastilhos.codechallenge.data.model.User;
 
 public class FavoriteDAO {
     private static DBHelper mDBHelper;
+    private static final String TABLE_NAME =  Db.FavoriteTable.TABLE_NAME;
 
     public FavoriteDAO(Context context) {
         mDBHelper = DBHelper.getInstance(context);
@@ -22,12 +23,14 @@ public class FavoriteDAO {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Db.FavoriteTable.COLUMN_DATE, name);
         contentValues.put(Db.FavoriteTable.COLUMN_RESTAURANT_ID, name);
-        db.insert(Db.UserTable.TABLE_NAME, null, contentValues);
+        db.insert(TABLE_NAME, null, contentValues);
     }
 
     public Favorite getFavorite(int id) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + Db.FavoriteTable.TABLE_NAME + " where id == " + id, null);
-        return Db.parseCursorToFavorite(cursor);
+        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " where id == " + id, null);
+        Favorite favorite = Db.parseCursorToFavorite(cursor);
+        cursor.close();
+        return favorite;
     }
 }
