@@ -4,23 +4,23 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Location implements Parcelable {
-    public double latitude;
-    public double longitude;
+    public String latitude;
+    public String  longitude;
 
-    public Location(double latitude, double longitude) {
+    public Location(String latitude, String longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
     protected Location(Parcel in) {
-        latitude = in.readDouble();
-        longitude = in.readDouble();
+        latitude = in.readString();
+        longitude = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
     }
 
     @Override

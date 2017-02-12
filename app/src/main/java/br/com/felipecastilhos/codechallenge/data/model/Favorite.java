@@ -8,6 +8,12 @@ public class Favorite implements Parcelable {
     public int restaurantId;
     public String date;
 
+    public Favorite(int id, int restaurantId, String date) {
+        this.id = id;
+        this.restaurantId = restaurantId;
+        this.date = date;
+    }
+
     protected Favorite(Parcel in) {
         id = in.readInt();
         restaurantId = in.readInt();

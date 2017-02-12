@@ -1,11 +1,15 @@
 package br.com.felipecastilhos.codechallenge.data.local;
 
-import br.com.felipecastilhos.codechallenge.data.model.Location;
+import android.database.Cursor;
 
-import static br.com.felipecastilhos.codechallenge.data.local.Db.FavoritTable.COLUMN_DATE;
+import br.com.felipecastilhos.codechallenge.data.model.Favorite;
+import br.com.felipecastilhos.codechallenge.data.model.Location;
+import br.com.felipecastilhos.codechallenge.data.model.Restaurant;
+import br.com.felipecastilhos.codechallenge.data.model.Review;
+import br.com.felipecastilhos.codechallenge.data.model.User;
 
 public class Db {
-    public abstract static class FavoritTable {
+    public abstract static class FavoriteTable {
         public static final String TABLE_NAME = "favorite";
 
         public static final String COLUMN_ID = "id";
@@ -53,14 +57,7 @@ public class Db {
                         ");";
     }
 
-    public int id;
-    public float rate;
-    public int userId;
-    public int restaurantId;
-    public String userReview;
-    public int date;
-
-    public abstract static class Review {
+    public abstract static class ReviewTable {
         public static final String TABLE_NAME = "review";
 
         public static final String COLUMN_ID = "id";
@@ -73,15 +70,51 @@ public class Db {
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                        COLUMN_RATE + " INTEGER NOT NULL, " +
-                        COLUMN_USER_REVIEW+ " TEXT, " +
-                        COLUMN_DATE+ " TEXT NOT NULL, " +
-                        COLUMN_RESTAURANT_ID+ " TEXT NOT NULL, " +
-                        COLUMN_USER_ID+ " TEXT NOT NULL, " +
+                        COLUMN_RATE + " DOUBLE NOT NULL, " +
+                        COLUMN_USER_REVIEW + " TEXT, " +
+                        COLUMN_DATE + " INTEGER NOT NULL, " +
+                        COLUMN_RESTAURANT_ID + " INTEGER NOT NULL, " +
+                        COLUMN_USER_ID + " INTEGER NOT NULL, " +
                         "FOREIGN KEY (" + COLUMN_RESTAURANT_ID + ") REFERENCES" +
                         RestaurantTable.TABLE_NAME + "(" + RestaurantTable.COLUMN_ID + "), " +
-                        "FOREIGN KEY (" + COLUMN_USER_ID+ ") REFERENCES" +
+                        "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES" +
                         UserTable.TABLE_NAME + "(" + UserTable.COLUMN_ID + ")" +
                         "); ";
+    }
+
+    public static User parseCursorToUser(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow(UserTable.COLUMN_ID));
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.COLUMN_NAME));
+        return new User(id, name);
+    }
+
+    public static Restaurant parseCurorToRestaurant(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_ID));
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_NAME));
+        String about = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_ABOUT));
+        String locationString = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_LOCATION));
+        String[] locationArray = locationString.split(";");
+        Location location = new Location(locationArray[0], locationArray[1]);
+
+        return new Restaurant(id, name, about, location);
+    }
+
+    public static Favorite parseCursorToFavorite(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow(FavoriteTable.COLUMN_ID));
+        int restauranteId = cursor.getInt(cursor.getColumnIndexOrThrow(FavoriteTable.COLUMN_RESTAURANT_ID));
+        String date = cursor.getString(cursor.getColumnIndexOrThrow(FavoriteTable.COLUMN_DATE));
+
+        return new Favorite(id, restauranteId, date);
+    }
+
+    public static Review parseCursorToReview(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_ID));
+        float rate = cursor.getFloat(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_RATE));
+        int userID = cursor.getInt(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_USER_ID));
+        int restaurantId = cursor.getInt(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_RESTAURANT_ID));
+        String userReview = cursor.getString(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_USER_REVIEW));
+        String date = cursor.getString(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_DATE));
+
+        return new Review(id, rate, userID, restaurantId, userReview, date);
     }
 }

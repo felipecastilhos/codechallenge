@@ -9,9 +9,9 @@ public class Review implements Parcelable {
     public int userId;
     public int  restaurantId;
     public String userReview;
-    public int date;
+    public String date;
 
-    public Review(int id, float rate, int userId, int restaurantId, String userReview, int date) {
+    public Review(int id, float rate, int userId, int restaurantId, String userReview, String date) {
         this.id = id;
         this.rate = rate;
         this.userId = userId;
@@ -20,13 +20,14 @@ public class Review implements Parcelable {
         this.date = date;
     }
 
+
     protected Review(Parcel in) {
         id = in.readInt();
         rate = in.readFloat();
         userId = in.readInt();
         restaurantId = in.readInt();
         userReview = in.readString();
-        date = in.readInt();
+        date = in.readString();
     }
 
     @Override
@@ -36,7 +37,7 @@ public class Review implements Parcelable {
         dest.writeInt(userId);
         dest.writeInt(restaurantId);
         dest.writeString(userReview);
-        dest.writeInt(date);
+        dest.writeString(date);
     }
 
     @Override
