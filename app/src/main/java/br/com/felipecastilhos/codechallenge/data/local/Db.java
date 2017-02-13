@@ -38,9 +38,9 @@ public class Db {
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                        COLUMN_NAME + " INTEGER NOT NULL, " +
+                        COLUMN_NAME + " TEXT NOT NULL, " +
                         COLUMN_ABOUT + "TEXT, " +
-                        COLUMN_DISTANCE + "TEXT NOT NULL " +
+                        COLUMN_DISTANCE + "DOUBLE NOT NULL " +
                         " ); ";
     }
 
@@ -53,7 +53,7 @@ public class Db {
         public static final String CREATE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_ID + " INTEGER PRIMARY KEY, " +
-                        COLUMN_NAME + " INTEGER NOT NULL " +
+                        COLUMN_NAME + " TEXT NOT NULL " +
                         ");";
     }
 
@@ -80,38 +80,5 @@ public class Db {
                         "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " +
                         UserTable.TABLE_NAME + "(" + UserTable.COLUMN_ID + ")" +
                         "); ";
-    }
-
-    public static User parseCursorToUser(Cursor cursor) {
-        int id = cursor.getInt(cursor.getColumnIndexOrThrow(UserTable.COLUMN_ID));
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(UserTable.COLUMN_NAME));
-        return new User(id, name);
-    }
-
-    public static Restaurant parseCurorToRestaurant(Cursor cursor) {
-        int id = cursor.getInt(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_ID));
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_NAME));
-        String about = cursor.getString(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_ABOUT));
-        double distance = cursor.getDouble(cursor.getColumnIndexOrThrow(RestaurantTable.COLUMN_DISTANCE));
-        return new Restaurant(id, name, about, distance);
-    }
-
-    public static Favorite parseCursorToFavorite(Cursor cursor) {
-        int id = cursor.getInt(cursor.getColumnIndexOrThrow(FavoriteTable.COLUMN_ID));
-        int restauranteId = cursor.getInt(cursor.getColumnIndexOrThrow(FavoriteTable.COLUMN_RESTAURANT_ID));
-        String date = cursor.getString(cursor.getColumnIndexOrThrow(FavoriteTable.COLUMN_DATE));
-
-        return new Favorite(id, restauranteId, date);
-    }
-
-    public static Review parseCursorToReview(Cursor cursor) {
-        int id = cursor.getInt(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_ID));
-        float rate = cursor.getFloat(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_RATE));
-        int userID = cursor.getInt(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_USER_ID));
-        int restaurantId = cursor.getInt(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_RESTAURANT_ID));
-        String userReview = cursor.getString(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_USER_REVIEW));
-        String date = cursor.getString(cursor.getColumnIndexOrThrow(ReviewTable.COLUMN_DATE));
-
-        return new Review(id, rate, userID, restaurantId, userReview, date);
     }
 }

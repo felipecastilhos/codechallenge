@@ -29,8 +29,16 @@ public class FavoriteDAO {
     public Favorite getFavorite(int id) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " where id == " + id, null);
-        Favorite favorite = Db.parseCursorToFavorite(cursor);
+        Favorite favorite = parseCursorToFavorite(cursor);
         cursor.close();
         return favorite;
+    }
+
+    public static Favorite parseCursorToFavorite(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow(Db.FavoriteTable.COLUMN_ID));
+        int restauranteId = cursor.getInt(cursor.getColumnIndexOrThrow(Db.FavoriteTable.COLUMN_RESTAURANT_ID));
+        String date = cursor.getString(cursor.getColumnIndexOrThrow(Db.FavoriteTable.COLUMN_DATE));
+
+        return new Favorite(id, restauranteId, date);
     }
 }

@@ -6,16 +6,16 @@ import android.os.Parcelable;
 public class Review implements Parcelable {
     public int id;
     public float rate;
-    public int userId;
-    public int  restaurantId;
+    public User user;
+    public Restaurant  restaurant;
     public String userReview;
     public String date;
 
-    public Review(int id, float rate, int userId, int restaurantId, String userReview, String date) {
+    public Review(int id, float rate, User user, Restaurant restaurant, String userReview, String date) {
         this.id = id;
         this.rate = rate;
-        this.userId = userId;
-        this.restaurantId = restaurantId;
+        this.user = user;
+        this.restaurant = restaurant;
         this.userReview = userReview;
         this.date = date;
     }
@@ -24,8 +24,8 @@ public class Review implements Parcelable {
     protected Review(Parcel in) {
         id = in.readInt();
         rate = in.readFloat();
-        userId = in.readInt();
-        restaurantId = in.readInt();
+        user = in.readParcelable(User.class.getClassLoader());
+        restaurant = in.readParcelable(Restaurant.class.getClassLoader());
         userReview = in.readString();
         date = in.readString();
     }
@@ -34,8 +34,8 @@ public class Review implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeFloat(rate);
-        dest.writeInt(userId);
-        dest.writeInt(restaurantId);
+        dest.writeParcelable(user, flags);
+        dest.writeParcelable(restaurant, flags);
         dest.writeString(userReview);
         dest.writeString(date);
     }

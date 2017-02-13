@@ -28,7 +28,13 @@ public class UserDAO {
     public User getUser(int id) {
         SQLiteDatabase db = mDBHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " where id == " + id, null);
-        return Db.parseCursorToUser(cursor);
+        return parseCursorToUser(cursor);
+    }
+
+    public static User parseCursorToUser(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow(Db.UserTable.COLUMN_ID));
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(Db.UserTable.COLUMN_NAME));
+        return new User(id, name);
     }
 
     public int totalUsers() {
